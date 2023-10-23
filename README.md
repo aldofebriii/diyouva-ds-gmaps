@@ -12,7 +12,7 @@ REACT_APP_GMAPS_KEY="YOUR_GMAPS_KEY"
 REACT_APP_API_URL="YOUR_BASE_API_URL_WITHOUT_/ contoh: https://api.com"
 ```
 
-### map.tsx
+### Map.tsx
 
 **Ship** mewakilkan satu kapal yang coordinatenya pindah.
 
@@ -21,7 +21,12 @@ REACT_APP_API_URL="YOUR_BASE_API_URL_WITHOUT_/ contoh: https://api.com"
 ```tsx
 import React from 'react'
 import { GoogleMap, Polyline, useJsApiLoader } from '@react-google-maps/api';
-import Ship from './Ships';
+import Ship from './Ship';
+
+export interface GCoor {
+    lat: number;
+    lng: number;
+}
 
 const containerStyle = {
   width: '100vw',
@@ -33,11 +38,12 @@ const center = {
   lng: 113.9213
 };
 
-const Map: React.FC<{coors: google.maps.LatLng[] | google.maps.LatLngLiteral[]}> = ({coors}) => {
+const Map: React.FC<{coors: GCoor[]}> = ({coors}) => {
     const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GMAPS_KEY as string
     });
+
     //Polyline untuk gambar jalur kapal
     //Ships untuk coordinate kapal
     return isLoaded ? (
@@ -56,8 +62,6 @@ const Map: React.FC<{coors: google.maps.LatLng[] | google.maps.LatLngLiteral[]}>
 
 export default React.memo(Map);
 ```
-
-Untuk mengubah mengupdate map silahkan menggunakan method **************setMap**************
 
 ### Ship.tsx
 
@@ -154,3 +158,5 @@ export default App;
 ```
 
 Tempat first-load (saat web tampil pertama kali dimana akan menampilkan data)
+
+Untuk mengupdate data silahkan mengggunakan ********************useEffect******************** yang kemudian memperbarui coors yang akan ditampilkan.
