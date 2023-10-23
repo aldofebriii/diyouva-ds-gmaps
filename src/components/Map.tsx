@@ -1,6 +1,11 @@
 import React from 'react'
 import { GoogleMap, Polyline, useJsApiLoader } from '@react-google-maps/api';
-import Ship from './Ships';
+import Ship from './Ship';
+
+export interface GCoor {
+    lat: number;
+    lng: number;
+}
 
 const containerStyle = {
   width: '100vw',
@@ -12,18 +17,19 @@ const center = {
   lng: 113.9213
 };
 
-const Map: React.FC<{coors: google.maps.LatLng[] | google.maps.LatLngLiteral[]}> = ({coors}) => {
+const Map: React.FC<{coors: GCoor[]}> = ({coors}) => {
     const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: process.env.REACT_APP_GMAPS_KEY as string
     });
+
     //Polyline untuk gambar jalur kapal
     //Ships untuk coordinate kapal
     return isLoaded ? (
             <GoogleMap
                 mapContainerStyle={containerStyle}
                 center={center}
-                zoom={6}
+                zoom={5.5}
             >
                 { /* Component untuk kapal dan jalurnya*/ }
                 <Ship coors={coors}/>
